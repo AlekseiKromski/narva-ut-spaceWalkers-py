@@ -1,3 +1,4 @@
+#Created by: alekseiKromski
 import pygame
 import sys
 import math
