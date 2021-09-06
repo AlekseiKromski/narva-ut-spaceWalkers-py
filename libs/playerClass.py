@@ -1,5 +1,5 @@
 import pygame
-from libs.shotClass import Ball
+from libs.ballClass import Ball
 class Player:
     player_X = 100
     player_Y = 50
@@ -34,8 +34,7 @@ class Player:
         if keys[pygame.K_SPACE]:
             if not self.shot:
                 self.shot = True
-    def ballActionMethod(self):
-        
+    def ballActionMethod(self, bots):
         if self.shot:
             if not self.ballInit:
                 if self.view == 'right':
@@ -53,4 +52,5 @@ class Player:
                     self.ballInit = False
                     del self
                 else:
-                    self.ball.strike()
+                    bots = self.ball.strike(bots)
+        return bots
