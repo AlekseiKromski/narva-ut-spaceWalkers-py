@@ -8,7 +8,6 @@ class Bot_updated:
         #Uses for calculate method, that stop all calculate
         self.isRun = True
         self.spawn()
-
     def spawn(self):
         self._self = pygame.Rect(self.posx, self.posy, 20, 20)
         pygame.draw.rect(self.screen, (0,0,255), self._self)
@@ -18,15 +17,13 @@ class Bot_updated:
         else:
             self.__coordinates(player_pos)
                 
-        self.spawn()
-        
+        self.spawn()      
     def __moveX(self, mode):
         if mode == 'left': self.posx = self.posx - self.step
         if mode == 'right': self.posx = self.posx + self.step
     def __moveY(self, mode):
         if mode == 'top': self.posy = self.posy - self.step
         if mode == 'down': self.posy = self.posy + self.step
-
     def __checkRadius(self, player_pos):
         #!!!Return not in radius!!!
         radius = 100
@@ -44,7 +41,6 @@ class Bot_updated:
             return True
         else:
             return False
-
     def __coordinates(self, player_pos):
         #Find y distance
         distance_y = math.fabs(self.posy - player_pos[1])
@@ -52,15 +48,12 @@ class Bot_updated:
         #Find x distance
         distance_x = math.fabs(self.posx - player_pos[0])
 
-        print(distance_y)
-
         if distance_x > distance_y:
             if self.posy >= player_pos[1] : self.__moveY('top')
             if self.posy <= player_pos[1] : self.__moveY('down')
         else:
             if self.posx >= player_pos[0] : self.__moveX('left')
             if self.posx <= player_pos[0] : self.__moveX('right')
-
     def __approximation(self, player_pos):
         vx = player_pos[0] - self.posx
         vy = player_pos[1] - self.posy

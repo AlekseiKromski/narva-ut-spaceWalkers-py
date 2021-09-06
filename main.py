@@ -5,11 +5,14 @@ import math
 from libs.botClassBeta import Bot_updated
 from libs.playerClass import Player
 
+
+ball_init = False
+
 pygame.init()
 screen = pygame.display.set_mode((1200, 800))
 
 player = Player(screen)
-bot1_beta = Bot_updated(900,350, screen)
+bot1_beta = Bot_updated(250,100, screen)
 
 while True:
     pygame.time.delay(100)
@@ -21,6 +24,8 @@ while True:
     screen.fill((0, 0, 0))
 
     player.keys()
+    player.ballActionMethod()
+        
     player.spawn()
     bot1_beta.calculate([player.player_X, player.player_Y])
     
