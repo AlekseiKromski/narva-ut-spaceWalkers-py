@@ -1,8 +1,6 @@
 import pygame
 '''
-    1. Краш при убийстве сразу двух ботов
-        СЛЕДСТВИЕ: Проблема состоит в том, что при удалении одного бота, список перебирает воторого, но индекс сдвинулся
-        РЕШЕНИЕ: Делать удаление по id 
+ 
 '''
 class Ball:
     def __init__(self,mode,place, x, y, screen):
@@ -33,6 +31,7 @@ class Ball:
                 if self.posy == bots[i].posy and self.posx > bots[i].posx - 10 and self.posx < bots[i].posx + 10:
                     copy_array.pop(i)
                     self.__destroy()
+            break
 
         if self.countSteps >= 5:
             self.__destroy()
