@@ -2,16 +2,14 @@
 import pygame
 import sys
 import math
-from libs.botClass import Bot
+from libs.botClassBeta import Bot_updated
 from libs.playerClass import Player
 
 pygame.init()
 screen = pygame.display.set_mode((1200, 800))
 
 player = Player(screen)
-bot1 = Bot(900,350, screen)
-bot2 = Bot(100,100, screen)
-bot3 = Bot(400,700, screen)
+bot1_beta = Bot_updated(900,350, screen)
 
 while True:
     pygame.time.delay(100)
@@ -24,8 +22,6 @@ while True:
 
     player.keys()
     player.spawn()
-    bot1.calculate([player.player_X, player.player_Y])
-    bot2.calculate([player.player_X, player.player_Y])
-    bot3.calculate([player.player_X, player.player_Y])
+    bot1_beta.calculate([player.player_X, player.player_Y])
     
     pygame.display.update()     
