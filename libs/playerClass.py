@@ -1,7 +1,7 @@
 import pygame
 from libs.shotClass import Ball
 class Player:
-    player_X = 50
+    player_X = 100
     player_Y = 50
     shot = False
     view = 'right'

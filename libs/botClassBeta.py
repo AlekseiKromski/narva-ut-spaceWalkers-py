@@ -15,6 +15,8 @@ class Bot_updated:
         if self.__checkRadius(player_pos):
             self.__approximation(player_pos)
         else:
+            self.posx = round(self.posx, -1)
+            self.posy = round(self.posy, -1)
             self.__coordinates(player_pos)
                 
         self.spawn()      
@@ -49,11 +51,11 @@ class Bot_updated:
         distance_x = math.fabs(self.posx - player_pos[0])
 
         if distance_x > distance_y:
-            if self.posy >= player_pos[1] : self.__moveY('top')
-            if self.posy <= player_pos[1] : self.__moveY('down')
+            if self.posy > player_pos[1] : self.__moveY('top')
+            if self.posy < player_pos[1] : self.__moveY('down')
         else:
-            if self.posx >= player_pos[0] : self.__moveX('left')
-            if self.posx <= player_pos[0] : self.__moveX('right')
+            if self.posx > player_pos[0] : self.__moveX('left')
+            if self.posx < player_pos[0] : self.__moveX('right')
     def __approximation(self, player_pos):
         vx = player_pos[0] - self.posx
         vy = player_pos[1] - self.posy
