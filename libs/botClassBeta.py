@@ -1,10 +1,4 @@
-"""
-Обнавленный алгоритм взаимодейтсвия с игроком:
-    Теперь бот должен приблизиться к игроку в опредленный радиус
-    после чего вывести свою позицию на ближайшую координату
-    затем сделать выстрел и начать снова приследовать игрока, 
-    в противном случае, если бот в радиусе действия, надо сделать отступление
-"""
+
 import pygame
 import math
 class Bot_updated:
@@ -19,31 +13,21 @@ class Bot_updated:
         self._self = pygame.Rect(self.posx, self.posy, 20, 20)
         pygame.draw.rect(self.screen, (0,0,255), self._self)
     def calculate(self, player_pos):
-        print(self.checkRadius(player_pos))
-        if self.checkRadius(player_pos):
-            self.approximation(player_pos)
+        if self.__checkRadius(player_pos):
+            self.__approximation(player_pos)
         else:
-            self.coordinates(player_pos)
+            self.__coordinates(player_pos)
                 
         self.spawn()
         
-    def moveX(self, mode):
-        if mode == 'left':
-            self.posx = self.posx - self.step
-            self.posy = self.posy - (self.step / 6)
-        if mode == 'right':
-            self.posx = self.posx + self.step
-            self.posy = self.posy + (self.step / 6)
-        
-    def moveY(self, mode):
-        if mode == 'top':
-            self.posy = self.posy - self.step
-            self.posx = self.posx - (self.step / 6)
-        if mode == 'down':
-            self.posy = self.posy + self.step
-            self.posx = self.posx + (self.step / 6)
+    def __moveX(self, mode):
+        if mode == 'left': self.posx = self.posx - self.step
+        if mode == 'right': self.posx = self.posx + self.step
+    def __moveY(self, mode):
+        if mode == 'top': self.posy = self.posy - self.step
+        if mode == 'down': self.posy = self.posy + self.step
 
-    def checkRadius(self, player_pos):
+    def __checkRadius(self, player_pos):
         #!!!Return not in radius!!!
         radius = 100
         player_pox_x_with_radius_right = player_pos[0] + radius
@@ -61,21 +45,23 @@ class Bot_updated:
         else:
             return False
 
-    def coordinates(self, player_pos):
+    def __coordinates(self, player_pos):
         #Find y distance
         distance_y = math.fabs(self.posy - player_pos[1])
 
         #Find x distance
         distance_x = math.fabs(self.posx - player_pos[0])
 
-        if distance_x >= distance_y:
-            if self.posy >= player_pos[1] : self.moveY('top')
-            if self.posy <= player_pos[1] : self.moveY('down')
-        else:
-            if self.posx >= player_pos[0] : self.moveX('left')
-            if self.posx <= player_pos[0] : self.moveX('right')
+        print(distance_y)
 
-    def approximation(self, player_pos):
+        if distance_x > distance_y:
+            if self.posy >= player_pos[1] : self.__moveY('top')
+            if self.posy <= player_pos[1] : self.__moveY('down')
+        else:
+            if self.posx >= player_pos[0] : self.__moveX('left')
+            if self.posx <= player_pos[0] : self.__moveX('right')
+
+    def __approximation(self, player_pos):
         vx = player_pos[0] - self.posx
         vy = player_pos[1] - self.posy
 
