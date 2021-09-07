@@ -1,4 +1,6 @@
+from math import radians
 import pygame
+import os
 '''
  
 '''
@@ -6,32 +8,39 @@ class Ball:
     def __init__(self,mode,place, x, y, screen):
        self.posx, self.posy, self.screen, self.step, self.countSteps, self.mode, self.place = x, y, screen, 10, 0, mode, place
        self.isDestroyed = False
+       self.image = [
+            pygame.image.load(os.path.join('textures', 'shoot_x.png')),
+            pygame.image.load(os.path.join('textures', 'shoot_y.png'))
+       ]
+       self.surf = self.image[0]
     def spawn(self):
-        self._self = pygame.Rect(self.posx, self.posy, 20, 20)
-        pygame.draw.rect(self.screen, (0,255,0), self._self)
+        self.screen.blit(self.surf, (self.posx,self.posy))
     def strike(self, bots):
+        radius = 75
+        self.__setSurfByMode(self.mode)
         copy_array = []
         for bot in bots:
             copy_array.append(bot)
 
         for i in range(len(bots)):
             if self.mode == 'top':
-                if self.posx == bots[i].posx and self.posy > bots[i].posy - 10 and self.posy < bots[i].posy + 10:
+                if self.posx == bots[i].posx and self.posy > bots[i].posy - radius and self.posy < bots[i].posy + radius:
                     copy_array.pop(i)
                     self.__destroy()
             elif self.mode == 'bottom':
-                if self.posx == bots[i].posx and self.posy > bots[i].posy - 10 and self.posy < bots[i].posy + 10:
+                if self.posx == bots[i].posx and self.posy > bots[i].posy - radius and self.posy < bots[i].posy + radius:
                     copy_array.pop(i)
-                    self.__destroy()   
+                    self.__destroy()  
             elif self.mode == 'right':
-                if self.posy == bots[i].posy and self.posx > bots[i].posx - 10 and self.posx < bots[i].posx + 10:
+                if self.posy == bots[i].posy and self.posx > bots[i].posx - radius and self.posx < bots[i].posx + radius:
                     copy_array.pop(i)
                     self.__destroy()
+                    
             elif self.mode == 'left':
-                if self.posy == bots[i].posy and self.posx > bots[i].posx - 10 and self.posx < bots[i].posx + 10:
+                if self.posy == bots[i].posy and self.posx > bots[i].posx - radius and self.posx < bots[i].posx + radius:
                     copy_array.pop(i)
                     self.__destroy()
-            break
+            
 
         if self.countSteps >= 5:
             self.__destroy()
@@ -53,4 +62,10 @@ class Ball:
     def __destroy(self):  
         self.isDestroyed = True
         print('BOM')  
+    def __setSurfByMode(self, mode):
+        if mode == 'left' or mode == 'right':
+            self.surf = self.image[0]
+        else:
+            self.surf = self.image[1]
+
 

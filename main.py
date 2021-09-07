@@ -4,12 +4,14 @@ import sys
 import math
 from libs.botClass import Bot
 from libs.playerClass import Player
+import os 
 
 
 ball_init = False
 
 pygame.init()
 screen = pygame.display.set_mode((1200, 800))
+background = pygame.image.load(os.path.join('textures', 'background.jpg'))
 
 bots = []
 player = Player(screen)
@@ -18,6 +20,7 @@ bot2 = Bot(800,400, screen)
 bots.append(bot1)
 bots.append(bot2)
 
+ 
 while True:
     pygame.time.delay(100)
     for event in pygame.event.get():
@@ -25,7 +28,7 @@ while True:
             pygame.quit()
             sys.exit()
             
-    screen.fill((0, 0, 0))
+    screen.blit(background, (0,0))
 
     player.keys()
     if len(bots) != 0:
