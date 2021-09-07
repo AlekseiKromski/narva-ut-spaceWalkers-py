@@ -35,7 +35,8 @@ while True:
         bots = player.ballActionMethod(bots)
 
     player.spawn()
+
     for bot in bots:
-        bot.calculate([player.player_X, player.player_Y])
+        bot.calculate([player.player_X, player.player_Y], player.view)
     
     pygame.display.update()     
