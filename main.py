@@ -6,6 +6,9 @@ from libs.botClass import Bot
 from libs.playerClass import Player
 import os 
 
+#Set fps lock
+fps = 30
+fpsClock = pygame.time.Clock()
 
 ball_init = False
 
@@ -39,4 +42,6 @@ while True:
     for bot in bots:
         bot.calculate([player.player_X, player.player_Y], player.view)
     
-    pygame.display.update()     
+    #Execute fps lock
+    fpsClock.tick(30)
+    pygame.display.update()  

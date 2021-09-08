@@ -16,30 +16,42 @@ class Ball:
     def spawn(self):
         self.screen.blit(self.surf, (self.posx,self.posy))
     def strike(self, bots):
-        radius = 75
+        radius = 20
         self.__setSurfByMode(self.mode)
         copy_array = []
         for bot in bots:
             copy_array.append(bot)
 
         for i in range(len(bots)):
+            #!!!REWORK!!!
+            c1x = bots[i].posx - radius
+            c2x = bots[i].posx + radius
+            c2y = bots[i].posy - radius
+            c3y = bots[i].posy + radius
+
+            print(c2x)
+
             if self.mode == 'top':
-                if self.posx == bots[i].posx and self.posy > bots[i].posy - radius and self.posy < bots[i].posy + radius:
+                if self.posx > c1x and self.posx < c2x and self.posy < c3y and self.posy > c2y:
                     copy_array.pop(i)
                     self.__destroy()
+                    self.__debug(bots[i])
             elif self.mode == 'bottom':
-                if self.posx == bots[i].posx and self.posy > bots[i].posy - radius and self.posy < bots[i].posy + radius:
-                    copy_array.pop(i)
-                    self.__destroy()  
-            elif self.mode == 'right':
-                if self.posy == bots[i].posy and self.posx > bots[i].posx - radius and self.posx < bots[i].posx + radius:
+                if self.posx > c1x and self.posx < c2x and self.posy < c3y and self.posy > c2y:
                     copy_array.pop(i)
                     self.__destroy()
+                    self.__debug(bots[i]) 
+            elif self.mode == 'right':
+                if self.posx > c1x and self.posx < c2x and self.posy < c3y and self.posy > c2y:
+                    copy_array.pop(i)
+                    self.__destroy()
+                    self.__debug(bots[i])
                     
             elif self.mode == 'left':
-                if self.posy == bots[i].posy and self.posx > bots[i].posx - radius and self.posx < bots[i].posx + radius:
+                if self.posx < c2x and self.posx > c1x and self.posy < c3y and self.posy > c2y:
                     copy_array.pop(i)
                     self.__destroy()
+                    self.__debug(bots[i])
             
 
         if self.countSteps >= 5:
@@ -67,5 +79,12 @@ class Ball:
             self.surf = self.image[0]
         else:
             self.surf = self.image[1]
+    def __debug(self, bot):
+        print("----------------")
+        print("BOT X: " + str(bot.posx))
+        print("BOT Y: " + str(bot.posy))
 
+        print("BALL X: " + str(self.posx))
+        print("BALL Y: " + str(self.posy))
+        print("----------------")
 
