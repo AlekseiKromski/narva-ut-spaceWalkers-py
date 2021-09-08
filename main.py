@@ -20,7 +20,7 @@ background = pygame.image.load(os.path.join('textures', 'background.jpg'))
 bots = []
 player = Player(screen)
 
-for i in range(5):
+for i in range(1):
     bot = Bot(random.randrange(0,1200),random.randrange(0,600), screen)
     bots.append(bot)
  
@@ -42,7 +42,7 @@ while True:
     player.spawn()
 
     for bot in bots:
-        bot.calculate([player.player_X, player.player_Y], player.view, bots)
+        bot.calculate([player.player_X, player.player_Y], bots)
     
     #Execute fps lock
     fpsClock.tick(30)

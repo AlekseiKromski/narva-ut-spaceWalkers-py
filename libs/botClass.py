@@ -39,7 +39,7 @@ class Bot:
         self.spawn()
     def spawn(self):
         self.screen.blit(self.surf, (self.posx,self.posy))
-    def calculate(self, player_pos, player_view, bots):
+    def calculate(self, player_pos, bots):
         
         if self.fly_mode == 'normal':
             
@@ -56,7 +56,7 @@ class Bot:
                 self.posy = round(self.posy, -1)
                 self.__coordinates(player_pos)
                 self.tick += 1
-                self.__defineTextureInCoorfinate(player_view)   
+                self.__defineTextureByPlayer(player_pos)   
         elif self.fly_mode == 'tocoordinates':
             if self.randomCoordinates == None:
                 self.randomCoordinates = [random.randrange(0, 1200), random.randrange(0, 600)]
@@ -79,7 +79,7 @@ class Bot:
         if mode == 'down': self.posy = self.posy + self.step
     def __checkRadius(self, player_pos):
         #!!!Return not in radius!!!
-        radius = 250
+        radius = 150
         player_pox_x_with_radius_right = player_pos[0] + radius
         player_pox_x_with_radius_left = player_pos[0] - radius
 
@@ -148,15 +148,19 @@ class Bot:
             self.__setSurf(self.image[5][0])  
     def __setSurf(self, img):
         self.surf = pygame.image.load(img)
-    def __defineTextureInCoorfinate(self, mode):
-        if mode == "right":
-            self.__setSurf(self.image[3][0])
-        elif mode == "left":
+    def __defineTextureByPlayer(self, player_pos):
+
+        if player_pos[0] > self.posx:
             self.__setSurf(self.image[1][0])
-        elif mode == "bottom":
+        elif player_pos[0] < self.posx:
+            self.__setSurf(self.image[3][0])
+
+
+        if player_pos[1] > self.posy:
             self.__setSurf(self.image[2][0])
-        elif mode == "top":
+        elif player_pos[1] < self.posy:
             self.__setSurf(self.image[0][0])
+
     def __strike(self, player_pos, to):
         if self.ball.isDestroyed:
             self.shot = True
