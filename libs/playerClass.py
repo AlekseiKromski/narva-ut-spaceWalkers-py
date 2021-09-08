@@ -3,7 +3,7 @@ from libs.ballClass import Ball
 import os
 class Player:
     player_X = 600
-    player_Y = 400
+    player_Y = 600
     shot = False
     view = 'right'
     shotDistance = 150
@@ -61,7 +61,6 @@ class Player:
                 if self.ball.isDestroyed:
                     self.shot = False
                     self.ballInit = False
-                    del self
                 else:
                     bots = self.ball.strike(bots)
         return bots
