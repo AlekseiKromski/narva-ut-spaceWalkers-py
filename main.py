@@ -20,7 +20,7 @@ background = pygame.image.load(os.path.join('textures', 'background.jpg'))
 bots = []
 player = Player(screen)
 
-for i in range(1):
+for i in range(40):
     bot = Bot(random.randrange(0,1200),random.randrange(0,600), screen)
     bots.append(bot)
  

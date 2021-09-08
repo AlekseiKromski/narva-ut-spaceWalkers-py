@@ -27,21 +27,27 @@ class Player:
     def keys(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            self.player_X -= 10
-            self.view = 'left'
-            self.__setSurf(self.image[3][0]) 
+            if self.player_X - 10 > 0:
+                self.player_X -= 10
+                self.view = 'left'
+                self.__setSurf(self.image[3][0]) 
         if keys[pygame.K_RIGHT]:
-            self.player_X += 10
-            self.view = 'right'
-            self.__setSurf(self.image[1][0]) 
+            if self.player_X + 10 < 1100:
+                self.player_X += 10
+                self.view = 'right'
+                self.__setSurf(self.image[1][0]) 
+           
         if keys[pygame.K_UP]:
-            self.player_Y -= 10 
-            self.view = 'top'  
-            self.__setSurf(self.image[0][0]) 
+            if self.player_Y - 10 > 0:
+                self.player_Y -= 10 
+                self.view = 'top'  
+                self.__setSurf(self.image[0][0]) 
+            
         if keys[pygame.K_DOWN]:
-            self.player_Y += 10 
-            self.view = 'bottom'
-            self.__setSurf(self.image[2][0]) 
+            if self.player_Y + 10 < 700:
+                self.player_Y += 10 
+                self.view = 'bottom'
+                self.__setSurf(self.image[2][0]) 
         if keys[pygame.K_SPACE]:
             if not self.shot:
                 self.shot = True
