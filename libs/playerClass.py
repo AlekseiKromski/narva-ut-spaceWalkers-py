@@ -6,7 +6,7 @@ class Player:
     player_Y = 600
     shot = False
     view = 'right'
-    shotDistance = 150
+    shotDistance = 200
     ball = ''
     ballInit = False
     image = [

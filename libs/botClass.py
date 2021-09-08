@@ -13,7 +13,7 @@ class Bot:
         self.tick = 0
         self.shot = True
         self.ballInit = False
-        self.shotDistance = 150
+        self.shotDistance = 20
         self.definePlayerSideForStrike = None
         self.id = uuid.uuid1()
         self.fly_mode = 'normal'
@@ -171,10 +171,12 @@ class Bot:
             self.__setSurf(self.image[0][0])
     def __strike(self, player_pos, to):
         if self.ball.isDestroyed:
+            
             self.shot = True
         else:
             self.ball.strikeToPLayer(player_pos, to)   
     def __initBall(self, to):
+        print(self.posy + self.shotDistance)
         if to == 'right':
             self.ball = Ball(to, self.posx + self.shotDistance, self.posx, self.posy, self.screen)
         if to == 'left':

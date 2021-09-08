@@ -47,7 +47,10 @@ class Ball:
                     copy_array.pop(i)
                     self.__destroy()
             
-        if not self.isDestroyed:
+
+        if self.countSteps >= 5:
+            self.__destroy()
+        elif not self.isDestroyed:
             if self.posx == self.place or self.posy == self.place:
                 self.__destroy()
             else:
@@ -81,10 +84,9 @@ class Ball:
         elif self.mode == 'bottom':
             self.posy += self.step
 
-        if self.countSteps >= 5:
-            print('BOM') 
-            self.__destroy()
-        elif not self.isDestroyed:
+        if not self.isDestroyed:
+            print(self.place)
+            print(self.posx)
             if self.posx == self.place or self.posy == self.place:
                 print('BOM') 
                 self.__destroy()
