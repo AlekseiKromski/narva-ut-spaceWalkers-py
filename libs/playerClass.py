@@ -6,7 +6,7 @@ class Player:
     player_Y = 600
     shot = False
     view = 'right'
-    shotDistance = 200
+    shotDistance = 150
     ball = ''
     ballInit = False
     image = [
@@ -49,13 +49,13 @@ class Player:
         if self.shot:
             if not self.ballInit:
                 if self.view == 'right':
-                    self.ball = Ball(self.view, self.player_X + self.shotDistance, self.player_X, self.player_Y, self.screen)
+                    self.ball = Ball(self.view, self.player_X + self.shotDistance, self.player_X, self.player_Y, self.screen, False)
                 if self.view == 'left':
-                    self.ball = Ball(self.view, self.player_X - self.shotDistance, self.player_X, self.player_Y, self.screen)
+                    self.ball = Ball(self.view, self.player_X - self.shotDistance, self.player_X, self.player_Y, self.screen, False)
                 if self.view == 'bottom':
-                    self.ball = Ball(self.view, self.player_Y + self.shotDistance, self.player_X, self.player_Y, self.screen)
+                    self.ball = Ball(self.view, self.player_Y + self.shotDistance, self.player_X, self.player_Y, self.screen, False)
                 if self.view == 'top':
-                    self.ball = Ball(self.view, self.player_Y - self.shotDistance, self.player_X, self.player_Y, self.screen)
+                    self.ball = Ball(self.view, self.player_Y - self.shotDistance, self.player_X, self.player_Y, self.screen, False)
                 self.ballInit = True
             else:
                 if self.ball.isDestroyed:

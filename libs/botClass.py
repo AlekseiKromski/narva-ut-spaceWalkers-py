@@ -13,12 +13,13 @@ class Bot:
         self.tick = 0
         self.shot = True
         self.ballInit = False
-        self.shotDistance = 20
+        self.shotDistance = 150
         self.definePlayerSideForStrike = None
         self.id = uuid.uuid1()
         self.fly_mode = 'normal'
         self.randomCoordinates = None
         self.toCoordinateTimer = 0
+        self.animationStack = []
         self.image = [
         [os.path.join('textures', 'bot', 'bot_top.png')],
         [os.path.join('textures', 'bot', 'bot_right.png')],
@@ -41,6 +42,7 @@ class Bot:
     def calculate(self, player_pos, player_view, bots):
         
         if self.fly_mode == 'normal':
+            
             self.__findBotsInRadius(bots)
             #Change state
             self.randomCoordinates = None
@@ -64,7 +66,10 @@ class Bot:
                 self.toCoordinateTimer += 1
             if self.toCoordinateTimer >= 15:
                 self.fly_mode = 'normal'
-            
+        
+
+        self.__initStrike(player_pos) 
+
         self.spawn()      
     def __moveX(self, mode):
         if mode == 'left': self.posx = self.posx - self.step
@@ -90,7 +95,7 @@ class Bot:
         else:
             return False
     def __coordinates(self, player_pos):
-        radius = 1
+        radius = 10
         #Find y distance
         distance_y = math.fabs(self.posy - player_pos[1])
 
@@ -109,24 +114,7 @@ class Bot:
         
         #Strike
 
-        #Init strike
-        if self.shot:
-            if self.posy > player_pos[1] - radius and self.posy < player_pos[1] + radius:
-                print('IN Y')
-                if player_pos[0] < self.posx :
-                    self.definePlayerSideForStrike = 'left'
-                else:
-                    self.definePlayerSideForStrike = 'right'
-                self.__setNewBall()
-            elif self.posx > player_pos[0] - radius and self.posx < player_pos[0] + radius:
-                print('IN X')
-                if player_pos[1] < self.posy:
-                    self.definePlayerSideForStrike = 'top'
-                else:
-                    self.definePlayerSideForStrike = 'bottom'
-                self.__setNewBall()
-        else:
-            self.__strike(player_pos, self.definePlayerSideForStrike) 
+        
  
     def __approximation(self, player_pos):
         vx = player_pos[0] - self.posx
@@ -171,20 +159,18 @@ class Bot:
             self.__setSurf(self.image[0][0])
     def __strike(self, player_pos, to):
         if self.ball.isDestroyed:
-            
             self.shot = True
         else:
             self.ball.strikeToPLayer(player_pos, to)   
     def __initBall(self, to):
-        print(self.posy + self.shotDistance)
         if to == 'right':
-            self.ball = Ball(to, self.posx + self.shotDistance, self.posx, self.posy, self.screen)
+            self.ball = Ball(to, self.posx + self.shotDistance, self.posx, self.posy, self.screen, True)
         if to == 'left':
-            self.ball = Ball(to, self.posx - self.shotDistance, self.posx, self.posy, self.screen)
+            self.ball = Ball(to, self.posx - self.shotDistance, self.posx, self.posy, self.screen, True)
         if to == 'bottom':
-            self.ball = Ball(to, self.posy + self.shotDistance, self.posx, self.posy, self.screen)
+            self.ball = Ball(to, self.posy + self.shotDistance, self.posx, self.posy, self.screen, True)
         if to == 'top':
-            self.ball = Ball(to, self.posy - self.shotDistance, self.posx, self.posy, self.screen)
+            self.ball = Ball(to, self.posy - self.shotDistance, self.posx, self.posy, self.screen, True)
     def __findBotsInRadius(self, bots):
         radius = 100
         for i in range(len(bots)):
@@ -200,4 +186,22 @@ class Bot:
         if self.definePlayerSideForStrike != None:
                 self.shot = False
                 self.__initBall(self.definePlayerSideForStrike)
-    
+    def __initStrike(self, player_pos):
+        radius = 20 
+        #Init strike
+        if self.shot:
+            if self.posy > player_pos[1] - radius and self.posy < player_pos[1] + radius:
+                if player_pos[0] < self.posx :
+                    self.definePlayerSideForStrike = 'left'
+                else:
+                    self.definePlayerSideForStrike = 'right'
+                self.__setNewBall()
+            elif self.posx > player_pos[0] - radius and self.posx < player_pos[0] + radius:
+                if player_pos[1] < self.posy:
+                    self.definePlayerSideForStrike = 'top'
+                else:
+                    self.definePlayerSideForStrike = 'bottom'
+                self.__setNewBall()
+        else:
+            
+            self.__strike(player_pos, self.definePlayerSideForStrike)

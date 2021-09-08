@@ -5,6 +5,7 @@ import math
 from libs.botClass import Bot
 from libs.playerClass import Player
 import os 
+import random
 
 #Set fps lock
 fps = 30
@@ -18,12 +19,10 @@ background = pygame.image.load(os.path.join('textures', 'background.jpg'))
 
 bots = []
 player = Player(screen)
-bot1 = Bot(200,200, screen)
-bot2 = Bot(600,250, screen)
-bot3 = Bot(1200,250, screen)
-bots.append(bot1)
-bots.append(bot2)
-bots.append(bot3)
+
+for i in range(5):
+    bot = Bot(random.randrange(0,1200),random.randrange(0,600), screen)
+    bots.append(bot)
  
 while True:
     pygame.time.delay(100)
@@ -32,11 +31,13 @@ while True:
             pygame.quit()
             sys.exit()
             
-    screen.blit(background, (0,0))
+    
 
     player.keys()
-    if len(bots) != 0:
-        bots = player.ballActionMethod(bots)
+
+    screen.blit(background, (0,0))
+    bots = player.ballActionMethod(bots)
+        
 
     player.spawn()
 
