@@ -8,6 +8,7 @@ class Player:
     view = 'right'
     shotDistance = 150
     ball = ''
+    point = 0
     ballInit = False
     image = [
         [os.path.join('textures', 'player', 'main_top.png')],
@@ -56,12 +57,16 @@ class Player:
             if not self.ballInit:
                 if self.view == 'right':
                     self.ball = Ball(self.view, self.player_X + self.shotDistance, self.player_X, self.player_Y, self.screen, False)
+                    self.ball.setPlayerInstance(self)
                 if self.view == 'left':
                     self.ball = Ball(self.view, self.player_X - self.shotDistance, self.player_X, self.player_Y, self.screen, False)
+                    self.ball.setPlayerInstance(self)
                 if self.view == 'bottom':
                     self.ball = Ball(self.view, self.player_Y + self.shotDistance, self.player_X, self.player_Y, self.screen, False)
+                    self.ball.setPlayerInstance(self)
                 if self.view == 'top':
                     self.ball = Ball(self.view, self.player_Y - self.shotDistance, self.player_X, self.player_Y, self.screen, False)
+                    self.ball.setPlayerInstance(self)
                 self.ballInit = True
             else:
                 if self.ball.isDestroyed:

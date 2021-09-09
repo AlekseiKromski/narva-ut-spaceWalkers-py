@@ -2,6 +2,7 @@ from math import radians
 import pygame
 import os
 import sys
+from libs.menuClass import Menu
 '''
  
 '''
@@ -39,18 +40,22 @@ class Ball:
 
                 if self.mode == 'top':
                     if self.posx > c1x and self.posx < c2x and self.posy < c3y and self.posy > c2y:
+                        self.player.point +=1
                         copy_array.pop(i)
                         self.__destroy()
                 elif self.mode == 'bottom':
                     if self.posx > c1x and self.posx < c2x and self.posy < c3y and self.posy > c2y:
+                        self.player.point +=1
                         copy_array.pop(i)
                         self.__destroy()
                 elif self.mode == 'right':
                     if self.posx > c1x and self.posx < c2x and self.posy < c3y and self.posy > c2y:
+                        self.player.point +=1
                         copy_array.pop(i)
                         self.__destroy()
                 elif self.mode == 'left':
                     if self.posx < c2x and self.posx > c1x and self.posy < c3y and self.posy > c2y:
+                        self.player.point +=1
                         copy_array.pop(i)
                         self.__destroy()
                 
@@ -96,16 +101,20 @@ class Ball:
 
         if self.mode == 'top':
             if self.posx > c1x and self.posx < c2x and self.posy < c3y and self.posy > c2y:
+                Menu.changeDisplayMode('point')
                 self.__destroy()
         elif self.mode == 'bottom':
             if self.posx > c1x and self.posx < c2x and self.posy < c3y and self.posy > c2y:
+                Menu.changeDisplayMode('point')
                 self.__destroy()
         elif self.mode == 'right':
             if self.posx > c1x and self.posx < c2x and self.posy < c3y and self.posy > c2y:
+                Menu.changeDisplayMode('point')
                 self.__destroy()
                 
         elif self.mode == 'left':
             if self.posx < c2x and self.posx > c1x and self.posy < c3y and self.posy > c2y:
+                Menu.changeDisplayMode('point')
                 self.__destroy() 
 
         if not self.isDestroyed:
@@ -138,4 +147,5 @@ class Ball:
         self.textureAnimationCount += 1
         self.screen.blit(bom_texture, (self.posx,self.posy))
         return False
-            
+    def setPlayerInstance(self, player):
+        self.player = player
