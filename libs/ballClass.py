@@ -1,31 +1,28 @@
 from math import radians
 import pygame
 import os
-import sys
 from libs.menuClass import Menu
-'''
- 
-'''
+
 class Ball:
+    isDestroyed = False
+    textureAnimationCount = 1
+    image = [
+        pygame.image.load(os.path.join('textures', 'shoot_x.png')),
+        pygame.image.load(os.path.join('textures', 'shoot_y.png')),
+        pygame.image.load(os.path.join('textures', 'shoot_bot_x.png')),
+        pygame.image.load(os.path.join('textures', 'shoot_bot_y.png')),
+    ]
+    surf = image[0]
+    radius = 20
     def __init__(self,mode,place, x, y, screen, isBotTexturePack):
-       self.posx, self.posy, self.screen, self.step, self.countSteps, self.mode, self.place = x, y, screen, 10, 0, mode, place
-       self.isDestroyed = False
-       self.textureAnimationCount = 1
-       self.isBotTexturePack = isBotTexturePack
-       self.image = [
-            pygame.image.load(os.path.join('textures', 'shoot_x.png')),
-            pygame.image.load(os.path.join('textures', 'shoot_y.png')),
-            pygame.image.load(os.path.join('textures', 'shoot_bot_x.png')),
-            pygame.image.load(os.path.join('textures', 'shoot_bot_y.png')),
-       ]
-       self.surf = self.image[0]
+       self.posx, self.posy, self.screen, self.step, self.countSteps, self.mode, self.place, self.isBotTexturePack = x, y, screen, 10, 0, mode, place, isBotTexturePack
+       
     def spawn(self):
         self.screen.blit(self.surf, (self.posx,self.posy))
     def strike(self, bots):
         if self.textureAnimationCount > 1:
             self.__destroy()
         else:
-            radius = 20
             self.__setSurfByMode(self.mode)
             
             copy_array = []
@@ -33,10 +30,10 @@ class Ball:
                 copy_array.append(bot)
 
             for i in range(len(bots)):
-                c1x = bots[i].posx - radius
-                c2x = bots[i].posx + radius
-                c2y = bots[i].posy - radius
-                c3y = bots[i].posy + radius
+                c1x = bots[i].posx - self.radius
+                c2x = bots[i].posx + self.radius
+                c2y = bots[i].posy - self.radius
+                c3y = bots[i].posy + self.radius
 
                 if self.mode == 'top':
                     if self.posx > c1x and self.posx < c2x and self.posy < c3y and self.posy > c2y:
