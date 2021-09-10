@@ -19,7 +19,6 @@ class Bot:
         self.fly_mode = 'normal'
         self.randomCoordinates = None
         self.toCoordinateTimer = 0
-        self.animationStack = []
         self.image = [
         [os.path.join('textures', 'bot', 'bot_top.png')],
         [os.path.join('textures', 'bot', 'bot_right.png')],
@@ -113,9 +112,6 @@ class Bot:
             self.tick = 0
         
         #Strike
-
-        
- 
     def __approximation(self, player_pos):
         vx = player_pos[0] - self.posx
         vy = player_pos[1] - self.posy
@@ -136,7 +132,6 @@ class Bot:
     def __delete__(self):
         self.color = (0,0,0)
         del self
-
     def __defineTextureInapproximation(self, x, y):
         if x < 0 and y < 0:
             self.__setSurf(self.image[4][0])
@@ -160,7 +155,6 @@ class Bot:
             self.__setSurf(self.image[2][0])
         elif player_pos[1] < self.posy:
             self.__setSurf(self.image[0][0])
-
     def __strike(self, player_pos, to):
         if self.ball.isDestroyed:
             self.shot = True
