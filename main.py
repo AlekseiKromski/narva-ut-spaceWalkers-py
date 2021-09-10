@@ -8,22 +8,17 @@ import os
 import random
 from libs.menuClass import Menu
 
-#Set fps lock
-fps = 30
-fpsClock = pygame.time.Clock()
-
-ball_init = False
-
 pygame.init()
 screen = pygame.display.set_mode((1200, 800))
-BIG = pygame.font.Font(os.path.join('fonts','undertale.ttf'), 32)
-SMALL = pygame.font.Font(os.path.join('fonts','undertale.ttf'), 16)
 
-#init menu
+#Setting up custom fonts
+BIG_FONT = pygame.font.Font(os.path.join('fonts','undertale.ttf'), 32)
+SMALL_FONT = pygame.font.Font(os.path.join('fonts','undertale.ttf'), 16)
 
- 
+#set delay
+_delay = 80
 while True:
-    pygame.time.delay(100)
+    pygame.time.delay(_delay)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -55,20 +50,14 @@ while True:
         if len(bots) == 0:
             Menu.changeDisplayMode('point')
     elif Menu.displayMode == 'point':
-        
         screen.blit(Menu.point, (0,0))
-
-        
-        points = BIG.render("YOUR POINTS : " + str(player.point), True, (240,240,240))
-        presstocontinue = SMALL.render("press BACKSPACE to continue ...", True, (240,240,240))
+        points = BIG_FONT.render("YOUR POINTS : " + str(player.point), True, (240,240,240))
+        presstocontinue = SMALL_FONT.render("press BACKSPACE to continue ...", True, (240,240,240))
         screen.blit(points, (390, 320))            
         screen.blit(presstocontinue, (380, 420))            
         if keys[pygame.K_BACKSPACE]:
             Menu.changeDisplayMode('menu')
             
 
-
-    #Execute fps lock
-    fpsClock.tick(30)
     pygame.display.update()  
 

@@ -7,35 +7,39 @@ import uuid
 from pygame import image
 import random
 class Bot:
+
+    color = (0,0,255)
+    tick = 0
+    shot = True
+    ballInit = False
+    shotDistance = 150
+    definePlayerSideForStrike = None
+    id = uuid.uuid1()
+    fly_mode = 'normal'
+    randomCoordinates = None
+    toCoordinateTimer = 0
+    image = [
+    [os.path.join('textures', 'bot', 'bot_top.png')],
+    [os.path.join('textures', 'bot', 'bot_right.png')],
+    [os.path.join('textures', 'bot', 'bot_bottom.png')],
+    [os.path.join('textures', 'bot', 'bot_left.png')],
+
+    [os.path.join('textures', 'bot', 'bot_top_left.png')],
+    [os.path.join('textures', 'bot', 'bot_top_right.png')],
+    [os.path.join('textures', 'bot', 'bot_bottom_left.png')],
+    [os.path.join('textures', 'bot', 'bot_bottom_right.png')],
+    ]
+    surf = pygame.image.load(image[1][0])
+
+    #Uses for calculate method, that stop all calculate
+    isRun = True
+
+    radiusForCheckRadiusMethod = 150
+    radiusForFindBotRadiusMethod = 100
+    radiusForInitStrikeMethod = 20
+
     def __init__(self, x, y, screen):
         self.posx,self.posy, self.step, self.screen = x, y, 10, screen
-        self.color = (0,0,255)
-        self.tick = 0
-        self.shot = True
-        self.ballInit = False
-        self.shotDistance = 150
-        self.definePlayerSideForStrike = None
-        self.id = uuid.uuid1()
-        self.fly_mode = 'normal'
-        self.randomCoordinates = None
-        self.toCoordinateTimer = 0
-        self.animationStack = []
-        self.image = [
-        [os.path.join('textures', 'bot', 'bot_top.png')],
-        [os.path.join('textures', 'bot', 'bot_right.png')],
-        [os.path.join('textures', 'bot', 'bot_bottom.png')],
-        [os.path.join('textures', 'bot', 'bot_left.png')],
-
-        [os.path.join('textures', 'bot', 'bot_top_left.png')],
-        [os.path.join('textures', 'bot', 'bot_top_right.png')],
-        [os.path.join('textures', 'bot', 'bot_bottom_left.png')],
-        [os.path.join('textures', 'bot', 'bot_bottom_right.png')],
-        ]
-
-        self.surf = pygame.image.load(self.image[1][0])
-
-        #Uses for calculate method, that stop all calculate
-        self.isRun = True
         self.spawn()
     def spawn(self):
         self.screen.blit(self.surf, (self.posx,self.posy))
@@ -78,13 +82,11 @@ class Bot:
         if mode == 'top': self.posy = self.posy - self.step
         if mode == 'down': self.posy = self.posy + self.step
     def __checkRadius(self, player_pos):
-        #!!!Return not in radius!!!
-        radius = 150
-        player_pox_x_with_radius_right = player_pos[0] + radius
-        player_pox_x_with_radius_left = player_pos[0] - radius
+        player_pox_x_with_radius_right = player_pos[0] + self.radiusForCheckRadiusMethod
+        player_pox_x_with_radius_left = player_pos[0] - self.radiusForCheckRadiusMethod
 
-        player_pox_y_with_radius_bottom = player_pos[1] + radius
-        player_pox_y_with_radius_top = player_pos[1] - radius
+        player_pox_y_with_radius_bottom = player_pos[1] + self.radiusForCheckRadiusMethod
+        player_pox_y_with_radius_top = player_pos[1] - self.radiusForCheckRadiusMethod
         if(
             self.posx > player_pox_x_with_radius_right or
             self.posx < player_pox_x_with_radius_left or
@@ -95,7 +97,6 @@ class Bot:
         else:
             return False
     def __coordinates(self, player_pos):
-        radius = 10
         #Find y distance
         distance_y = math.fabs(self.posy - player_pos[1])
 
@@ -111,11 +112,7 @@ class Bot:
             if self.posx > player_pos[0] : self.__moveX('left')
             if self.posx < player_pos[0] : self.__moveX('right')
             self.tick = 0
-        
-        #Strike
 
-        
- 
     def __approximation(self, player_pos):
         vx = player_pos[0] - self.posx
         vy = player_pos[1] - self.posy
@@ -176,12 +173,11 @@ class Bot:
         if to == 'top':
             self.ball = Ball(to, self.posy - self.shotDistance, self.posx, self.posy, self.screen, True)
     def __findBotsInRadius(self, bots):
-        radius = 100
         for i in range(len(bots)):
-            c1x = bots[i].posx - radius
-            c2x = bots[i].posx + radius
-            c2y = bots[i].posy - radius
-            c3y = bots[i].posy + radius
+            c1x = bots[i].posx - self.radiusForFindBotRadiusMethod
+            c2x = bots[i].posx + self.radiusForFindBotRadiusMethod
+            c2y = bots[i].posy - self.radiusForFindBotRadiusMethod
+            c3y = bots[i].posy + self.radiusForFindBotRadiusMethod
 
             if self.id != bots[i].id:
                 if self.posx > c1x and self.posx < c2x and self.posy > c2y and self.posy < c3y:
@@ -191,16 +187,15 @@ class Bot:
                 self.shot = False
                 self.__initBall(self.definePlayerSideForStrike)
     def __initStrike(self, player_pos):
-        radius = 20 
         #Init strike
         if self.shot:
-            if self.posy > player_pos[1] - radius and self.posy < player_pos[1] + radius:
+            if self.posy > player_pos[1] - self.radiusForInitStrikeMethod and self.posy < player_pos[1] + self.radiusForInitStrikeMethod:
                 if player_pos[0] < self.posx :
                     self.definePlayerSideForStrike = 'left'
                 else:
                     self.definePlayerSideForStrike = 'right'
                 self.__setNewBall()
-            elif self.posx > player_pos[0] - radius and self.posx < player_pos[0] + radius:
+            elif self.posx > player_pos[0] - self.radiusForInitStrikeMethod and self.posx < player_pos[0] + self.radiusForInitStrikeMethod:
                 if player_pos[1] < self.posy:
                     self.definePlayerSideForStrike = 'top'
                 else:
