@@ -7,6 +7,7 @@ from libs.playerClass import Player
 import os 
 import random
 from libs.menuClass import Menu
+import time
 
 pygame.init()
 screen = pygame.display.set_mode((1200, 800))
@@ -29,7 +30,8 @@ while True:
         if keys[pygame.K_SPACE]:
             bots = []
             player = Player(screen)
-            for i in range(random.randrange(5), random.randrange(15)):
+            time.sleep(0.5)
+            for i in range(random.randrange(2), random.randrange(5)):
                 bot = Bot(random.randrange(0,1200),random.randrange(0,600), screen)
                 bots.append(bot)
             displayMenu = False
